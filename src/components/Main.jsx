@@ -7,7 +7,6 @@ import RepositoryList from "./RepositoryList";
 const Main = () => {
     return (
         <View style={{ marginTop: Constants.statusBarHeight, flexGrow: 1 }}>
-            <Text>Rate Repository Application</Text>
             <RepositoryList />
         </View>
     );
