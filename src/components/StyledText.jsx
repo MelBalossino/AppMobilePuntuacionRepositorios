@@ -13,12 +13,29 @@ const styles = StyleSheet.create({
         fontWeight: theme.fontWeights.bold,
     },
     subheading: {
+        color: theme.fontSizes.subheading,
+    },
+    colorPrimary: {
         color: theme.colors.primary,
     },
-    fontSizeSubheading: {
-        fontSize: theme.fontSizes.subheading,
-    },
-    fontWeightBold: {
-        fontWeight: theme.fontWeights.bold,
+    colorSecondary: {
+        color: theme.colors.textSecondary,
     },
 })
+
+export default function StyledText({ children, color, fontSize, fontWeight, style, ...props }) {
+    const textStyle = [
+        styles.text,
+        color === 'primary' && styles.colorPrimary,
+        color === 'secondary' && styles.colorSecondary,
+        fontSize === 'subheading' && styles.subheading,
+        fontWeight === 'bold' && styles.bold,
+        style,
+    ]
+
+    return (
+        <Text style={textStyle} {...props}>
+            {children}
+        </Text>
+    )
+}
