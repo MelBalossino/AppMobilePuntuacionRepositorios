@@ -26,8 +26,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         borderRadius: 4,
         overflow: 'hidden',
-        marginTop: 5,
-        marginBottom: 5,
+        marginVertical: 5,
     },
     image: {
         width: 50,
