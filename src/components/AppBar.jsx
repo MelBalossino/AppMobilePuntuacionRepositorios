@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import StyledText from "./StyledText";
 import Constants from "expo-constants";
 import theme from "../theme";
-import { Link } from "react-router-native";
+import { Link, useLocation } from "react-router-native";
 
 const styles = StyleSheet.create({
     container: {
@@ -23,7 +23,10 @@ const styles = StyleSheet.create({
     }
 });
 
-const AppBarTab = ({ active, children, to }) => {
+const AppBarTab = ({ children, to }) => {
+    const { pathname } = useLocation();
+    const active = pathname === to;
+
     const textStyles = [styles.text, active && styles.active]
     return (
         <Link to={to} >
@@ -35,13 +38,14 @@ const AppBarTab = ({ active, children, to }) => {
 }
 
 const AppBar = () => {
+    const { pathname } = useLocation();
     return (
         <View style={styles.container}>
             <ScrollView horizontal style={styles.scroll}>
-            <AppBarTab active to='/'>Repositories</AppBarTab>
-            <AppBarTab to='/signin'>Sign in</AppBarTab>
+                <AppBarTab to='/'>Repositories</AppBarTab>
+                <AppBarTab to='/signin'>Sign in</AppBarTab>
             </ScrollView>
-       </View>
+        </View>
     );
 }
 
