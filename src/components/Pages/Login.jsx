@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Button, StyleSheet } from 'react-native'
 import { Formik, useField } from 'formik'
 import StyledTextInput from '../StyledTextInput'
+import StyledText from '../StyledText'
 
 const initialValues = {
     email: '',
@@ -9,6 +10,12 @@ const initialValues = {
 }
 
 const styles = StyleSheet.create({
+    error: {
+        color: 'red',
+        fontSize: 12,
+        marginBottom: 10,
+        marginTop: -5
+    },
     form: {
         margin: 12
     }
@@ -17,17 +24,32 @@ const styles = StyleSheet.create({
 const FormikInputValue = ({name, ...props}) => {
     const [field, meta, helpers] = useField(name)
     return (
+        <>
         <StyledTextInput 
                     values='{ field.value}'
                     onChangeText={value => helpers.setValue(value)}
                     {...props}
                     />
+        {meta.error && <StyledText style={styles.error}>
+            {meta.error}
+        </StyledText>}
+        </>
     )
+}
+
+const validate = values => {
+    const errors = {}
+    if (!values.email) {
+        errors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+        errors.email = 'Email is invalid'
+    }
+    return errors
 }
 
 export default function Login () {
     return (
-        <Formik initialValues={initialValues} onSubmit={values => console.log(values)}>
+        <Formik validate={validate} initialValues={initialValues} onSubmit={values => console.log(values)}>
         {( {onChangeText, handleSubmit} ) => {
             return (
                 <View style={styles.form}>
