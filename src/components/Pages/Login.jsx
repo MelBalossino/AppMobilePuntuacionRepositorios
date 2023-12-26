@@ -1,30 +1,45 @@
 import React from 'react'
-import { View, TextInput, Button } from 'react-native'
-import { Formik } from 'formik'
+import { View, Button, StyleSheet } from 'react-native'
+import { Formik, useField } from 'formik'
+import StyledTextInput from '../StyledTextInput'
 
 const initialValues = {
     email: '',
     password: ''
 }
 
-const Login = () => {
+const styles = StyleSheet.create({
+    form: {
+        margin: 12
+    }
+})
+
+const FormikInputValue = ({name, ...props}) => {
+    const [field, meta, helpers] = useField(name)
+    return (
+        <StyledTextInput 
+                    values='{ field.value}'
+                    onChangeText={value => helpers.setValue(value)}
+                    {...props}
+                    />
+    )
+}
+
+export default function Login () {
     return (
         <Formik initialValues={initialValues} onSubmit={values => console.log(values)}>
-        {( {onChangeText, handleChange, handleSubmit, values} ) => {
+        {( {onChangeText, handleSubmit} ) => {
             return (
-                <View>
-                    <TextInput 
+                <View style={styles.form}>
+                    <FormikInputValue 
                     placeholder='Email'
-                    values='{values.email}'
-                    onChangeText={handleChange('email')}
+                    name="email"
                     />
-                    <TextInput />
-                    <TextInput 
+                    <FormikInputValue 
                     placeholder='Password'
-                    values='{values.password}'
-                    onChangeText={handleChange('password')}
+                    name="password"
+                    secureTextEntry
                     />
-                    <TextInput />
                     <Button onPress={handleSubmit} title='Log In'/>
                 </View>
             )
@@ -33,4 +48,3 @@ const Login = () => {
     )
 }
 
-export default Login
